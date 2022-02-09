@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ import javax.swing.JTextField;
 
 public class AddRecord implements ActionListener{
 	private static Scanner x;
+	private static Scanner y;
 	JFrame frame = new JFrame();
 	
 	// text fields
@@ -41,6 +43,11 @@ public class AddRecord implements ActionListener{
 	JComboBox courseList = new JComboBox(courses);
 	
 	int buffer = 0;
+	
+
+	static boolean adam_bested = true;
+	static int adam_points = 0;
+	static int brian_points = 0;
 
 	
 	AddRecord(){
@@ -85,7 +92,7 @@ public class AddRecord implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == submit) {
 			editCourseStats("StatFiles/courseStats",(String) courseList.getSelectedItem(),"1",stats[0].getText(),stats[1].getText(),stats[2].getText(),stats[3].getText());
-			
+			change_course_history((String) courseList.getSelectedItem());
 			frame.dispose();
 			new HomePage();
 		}
@@ -93,6 +100,121 @@ public class AddRecord implements ActionListener{
 	}
 	
 
+
+	private void change_course_history(String course) {
+		
+		try {
+			
+			
+			File oldfile = new File("StatFiles/courseHistory.txt");
+			File newFile = new File("StatFiles/temp.txt");
+			
+			FileWriter fw = new FileWriter("StatFiles/temp.txt");
+			BufferedWriter bw = new BufferedWriter(fw);
+			PrintWriter pw = new PrintWriter(bw);
+			x = new Scanner(new File("StatFiles/courseHistory.txt"));
+			x.useDelimiter("[,\n]");
+			
+			
+			String course_name;
+			String ab;
+			String bb;
+			String anum[] = {"","","","",""};
+			String arnum;
+			String bnum[] = {"","","","",""};
+			String brnum;
+			int adamB;
+			int brianB;
+			int race_num;
+			
+		
+			
+			
+			while (x.hasNext()) {
+				
+				course_name = x.next();
+				adamB = Integer.parseInt(x.next());
+				brianB = Integer.parseInt(x.next());
+				anum[0] = x.next();
+				anum[1] = x.next();
+				anum[2] = x.next();
+				anum[3] = x.next();
+				anum[4] = x.next();
+				arnum = x.next();
+				bnum[0] = x.next();
+				bnum[1] = x.next();
+				bnum[2] = x.next();
+				bnum[3] = x.next();
+				bnum[4] = x.next();
+				brnum = x.next();
+				x.next();
+				
+				
+				
+				ab = String.valueOf(adamB);
+				bb = String.valueOf(brianB);
+				
+				if (course_name.equals(course)) {
+					
+					if (adam_bested == true) {
+						adamB += 1;
+					}
+					
+					else {
+						brianB += 1;
+					}
+					
+					anum[Integer.parseInt(arnum)] = String.valueOf(adam_points);
+					bnum[Integer.parseInt(brnum)] = String.valueOf(brian_points);
+					
+					arnum = String.valueOf(Integer.parseInt(arnum)+1);
+					brnum = arnum;
+					
+					if (Integer.parseInt(arnum) >= 5) {
+						arnum = "0";
+						brnum = "0";
+						
+					}
+					
+				
+					
+					ab = String.valueOf(adamB);
+					bb = String.valueOf(brianB);
+					
+					pw.println(course_name+","+ab+","+bb+","+anum[0]+","+anum[1]+","+anum[2]+","+anum[3]+","+anum[4]+","+arnum+","+bnum[0]+","+bnum[1]+","+bnum[2]+","+bnum[3]+","+bnum[4]+","+brnum+","+"useless");
+					
+					
+					
+					
+					
+				}
+				
+				else {
+					
+					pw.println(course_name+","+ab+","+bb+","+anum[0]+","+anum[1]+","+anum[2]+","+anum[3]+","+anum[4]+","+arnum+","+bnum[0]+","+bnum[1]+","+bnum[2]+","+bnum[3]+","+bnum[4]+","+brnum+","+"useless");
+					
+					
+				}
+				
+			
+				
+			}
+			
+			
+			x.close();
+			pw.flush();
+			pw.close();
+			oldfile.delete();
+			File dump = new File("StatFiles/courseHistory.txt");
+			newFile.renameTo(dump);
+		}
+		
+		catch(Exception e)
+		{
+			System.out.println("ERROR COURSE HISTORY");
+		}
+		
+	}
 
 	public static void editCourseStats(String file, String course,String timesPlayed,String adamLuck, String brianLuck, String adamPoints, String brianPoints) {
 		
@@ -106,6 +228,9 @@ public class AddRecord implements ActionListener{
 		File newFile = new File(tempFile);
 		int count = 0; int ap = 0; int bp = 0; int set = 0; int adamVictory = 0; int brianVictory = 0;int points = 8;
 		String courseName = "";String timePlayedCourse = "";String aLuck = ""; String bLuck = ""; String aPoints = ""; String bPoints = "";
+		
+		
+		
 		
 		try {
 			FileWriter fw = new FileWriter(tempFile);
@@ -123,11 +248,26 @@ public class AddRecord implements ActionListener{
 				aPoints = x.next();
 				bPoints = x.next();
 				x.next();
+				
+
 
 			
 				
 				
 				if (courseName.equals(course)) {
+					
+					adam_points = Integer.parseInt(adamPoints);
+					brian_points = Integer.parseInt(brianPoints);
+					
+					
+					
+					if (adam_points > brian_points) {
+						adam_bested = true;
+					}
+					else {
+						adam_bested = false;
+					}
+					
 					num[0] = Integer.parseInt(timePlayedCourse);
 					num[1] = Integer.parseInt(aLuck);
 					num[2] = Integer.parseInt(bLuck);
@@ -259,6 +399,8 @@ public class AddRecord implements ActionListener{
 				
 				
 			}
+ 
+			
 			x.close();
 			pw.flush();
 			pw.close();
