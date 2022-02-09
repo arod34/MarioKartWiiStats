@@ -33,7 +33,7 @@ public class HomePage implements ActionListener{
 	ImageIcon FavCup; // image showing most played cup
 	ImageIcon worstCourse; // image for least played course
 	ImageIcon worstCup; // image for least played cup
-	ImageIcon luckPic = new ImageIcon(getClass().getClassLoader().getResource("adam.jpg")); // image of luckiest player
+	ImageIcon luckPic = new ImageIcon(("pics/adam.jpg")); // image of luckiest player
 
 
 
@@ -178,7 +178,7 @@ public class HomePage implements ActionListener{
 
 	HomePage(){
 
-		dont.setFont(new Font(null,Font.PLAIN,25));
+		//dont.setFont(new Font(null,Font.PLAIN,25));
 		
 		addButtons(); // adding buttons to navigate to different pages
 		playedCourse(); // displayes most played course and least played course to panels
@@ -189,7 +189,7 @@ public class HomePage implements ActionListener{
 
 		p1.setBounds(350, 25, 250, 950); // setting up where first panel is on frame
 		p2.setBounds(850, 25, 250, 950); // setting up 2nd panel on frame
-		dont.setBounds(25, 0, 400, 50);
+		//dont.setBounds(25, 0, 400, 50);
 
 		// adding panel to frame
 		homePage.add(p1);
@@ -312,9 +312,9 @@ public class HomePage implements ActionListener{
 			playerluck.setText("Player With Most Luck");
 
 			if (total > total2) {
-				luckPic = new ImageIcon(getClass().getClassLoader().getResource("adam.jpg"));
+				luckPic = new ImageIcon(("pics/adam.jpg"));
 			} else {
-				luckPic = new ImageIcon(getClass().getClassLoader().getResource("brian.jpg"));
+				luckPic = new ImageIcon(("pics/brian.jpg"));
 
 			}
 
