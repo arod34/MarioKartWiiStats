@@ -90,10 +90,10 @@ public class personalStats implements ActionListener{
 			"DKJungleParkway","GCNMarioCircuit","MarioCircuit3","PeachGardens","DKMountain","N64BowsersCastle"};
 	
 	// favorite character pictures
-	ImageIcon bowser =  new ImageIcon(getClass().getClassLoader().getResource("bowsermkwii.jpg")); // adams favorite character
-	ImageIcon bowserJR =  new ImageIcon(getClass().getClassLoader().getResource("bowserjrmkwii.jpg")); // brians favorite character
-	ImageIcon adamPic =  new ImageIcon(getClass().getClassLoader().getResource("adam.jpg"));
-	ImageIcon brianPic =  new ImageIcon(getClass().getClassLoader().getResource("brian.jpg"));
+	ImageIcon bowser =  new ImageIcon(("pics/bowsermkwii.jpg")); // adams favorite character
+	ImageIcon bowserJR =  new ImageIcon(("pics/bowserjrmkwii.jpg")); // brians favorite character
+	ImageIcon adamPic =  new ImageIcon(("pics/adam.jpg"));
+	ImageIcon brianPic =  new ImageIcon(("pics/brian.jpg"));
 	
 	
 	// course pictures
