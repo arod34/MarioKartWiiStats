@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 public class courseStats implements ActionListener{
 	
 	private static Scanner x;
+	private static Scanner y;
 	
 	JFrame frame = new JFrame(); // frame of my stats
 	JLabel j = new JLabel("Adam stats"); // temporary
@@ -146,7 +147,9 @@ public class courseStats implements ActionListener{
 		// labels for courses info
 		JLabel adampts = new JLabel();JLabel adamluck = new JLabel();JLabel brianpts = new JLabel();JLabel brianluck = new JLabel(); 
 		JLabel adampts2 = new JLabel();JLabel adamluck2 = new JLabel();JLabel brianpts2 = new JLabel();JLabel brianluck2 = new JLabel();
-		JLabel adampic = new JLabel(); JLabel coursepic = new JLabel();JLabel timeplayed = new JLabel();
+		JLabel adampic = new JLabel(); JLabel coursepic = new JLabel();JLabel timeplayed = new JLabel(); JLabel adam_five = new JLabel();
+		JLabel brian_five = new JLabel(); JLabel adam_five_text  = new JLabel(); JLabel brian_five_text = new JLabel(); JLabel adam_bested = new JLabel();
+		JLabel brian_bested = new JLabel();
 		
 		// strings for storing file data
 		String timePlayedCourse = "";String aLuck = ""; String bLuck = ""; String aPoints = ""; String bPoints = "";
@@ -156,6 +159,11 @@ public class courseStats implements ActionListener{
 		int bAvg = 0; // int for holding brians average points for course
 		int alAvg = 0; // int for holding adams average luck for course
 		int blAvg = 0; // int for holding brians average luck for course
+		int adam_best = 0; // int for holding how many times ive bested brian
+		int brian_best = 0; // int for holding how many times brian has bested me
+		
+		String past_five_adam = "";
+		String past_five_brian = "";
 		
 		try {
 			x = new Scanner(new InputStreamReader(getClass().getResourceAsStream("courseStats")));
@@ -209,12 +217,12 @@ public class courseStats implements ActionListener{
 					//setting up spot for label on page
 					adampts.setBounds(80,25,600,400);
 					adampts2.setBounds(160,120,600,400);
-					adamluck.setBounds(80,450,600,400);
-					adamluck2.setBounds(160,545,600,400);
+					adamluck.setBounds(80,240,600,400);
+					adamluck2.setBounds(160,355,600,400);
 					brianpts.setBounds(1300,25,600,400);
 					brianpts2.setBounds(1380,120,600,400);
-					brianluck.setBounds(1300,450,600,400);
-					brianluck2.setBounds(1380,545,600,400);
+					brianluck.setBounds(1300,240,600,400);
+					brianluck2.setBounds(1380,355,600,400);
 					coursepic.setBounds(750, 300, 250, 200);
 					coursename.setBounds(700, 50, 1000, 100);
 					timeplayed.setBounds(715, 450, 800, 200);
@@ -235,6 +243,83 @@ public class courseStats implements ActionListener{
 				}
 		
 				
+			}
+			
+			count = 0;
+			
+			y = new Scanner(new InputStreamReader(getClass().getResourceAsStream("courseHistory.txt")));
+			y.useDelimiter("[,\n]");
+			
+			// displaying the past five races and how many times each player has outpremfored each other
+			while(y.hasNext()) {
+				
+				count += 1;
+				
+				y.next();
+				adam_best = Integer.parseInt(y.next());
+				brian_best = Integer.parseInt(y.next());
+				
+				for(int i = 0; i < 12; i++) {
+					
+					if (i < 5) {
+						if (i > 0) {
+							past_five_adam = past_five_adam+","+y.next();
+						}
+						else {
+							past_five_adam = past_five_adam+y.next();
+						}
+					}
+					
+					if (i == 5 || i == 11) {
+						y.next();
+					}
+					
+					if (i > 5 && i != 11) {
+						if (i > 6) {
+							past_five_brian = past_five_brian+","+y.next();
+						}
+						else {
+							past_five_brian = past_five_brian+y.next();
+						}
+					}
+				}
+				
+				y.next();
+				
+				if (count != courseNum) {
+					past_five_brian = "";
+					past_five_adam = "";
+				}
+				
+				if (count == courseNum) {
+					
+					adam_five_text.setText("Past Five Races Points For Adam:");
+					brian_five_text.setText("Past Five Races Points For Brian:");
+					adam_five_text.setBounds(40, 500, 900, 300);
+					brian_five_text.setBounds(1100, 500, 900, 300);
+					adam_five_text.setFont(new Font(null, Font.PLAIN,50));
+					brian_five_text.setFont(new Font(null, Font.PLAIN,50));
+					frame.add(adam_five_text);
+					frame.add(brian_five_text);
+					adam_five.setText(past_five_adam);
+					brian_five.setText(past_five_brian);
+					adam_five.setBounds(80, 575, 500, 300);
+					brian_five.setBounds(1380, 575, 500, 300);
+					adam_five.setFont(new Font(null, Font.PLAIN,50));
+					brian_five.setFont(new Font(null, Font.PLAIN,50));
+					frame.add(adam_five);
+					frame.add(brian_five);
+					adam_bested.setText("Adam Over Brian: "+adam_best);
+					brian_bested.setText("Brian Over Adam: "+brian_best);
+					adam_bested.setBounds(80, 700, 500, 300);
+					brian_bested.setBounds(1300, 700, 500, 300);
+					adam_bested.setFont(new Font(null, Font.PLAIN,50));
+					brian_bested.setFont(new Font(null, Font.PLAIN,50));
+					frame.add(adam_bested);
+					frame.add(brian_bested);
+					
+					
+				}
 			}
 			
 			x.close();
